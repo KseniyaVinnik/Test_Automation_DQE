@@ -2,6 +2,7 @@ import os
 import sqlite3
 import logging
 import sys
+
 from pyexpat import ExpatError
 from Counter import Counter
 from Fb2File import Fb2File
@@ -45,6 +46,7 @@ class Conductor:
                 my_db = SqliteCon()
             except sqlite3.OperationalError as e:
                 logging.error(e)
+
                 # connect to db and fill in the table "text_info". The table is created with connection to db
             try:
                 query = 'INSERT INTO text_info(book_name, number_of_paragraph, number_of_words,' \
