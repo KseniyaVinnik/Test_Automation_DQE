@@ -2,6 +2,7 @@ import os
 import sqlite3
 import logging
 import sys
+
 from pyexpat import ExpatError
 from Counter import Counter
 from Fb2File import Fb2File
@@ -23,8 +24,7 @@ class Conductor:
             file_list = check_input.remove_files()
         except FileNotFoundError as e:
             logging.error(e)
-        except IndexError as e:
-            logging.error(e)
+
         # read and count all the necessary values for each file
         for file in file_list:
             get_path = check_input.path + file
@@ -34,19 +34,20 @@ class Conductor:
                 logging.error(e)
                 os.rename(get_path, 'incorrect_input/' + file)
                 continue
+
             title = Fb2File.get_title(f)
             paragraphs = Fb2File.count_paragraphs(f)
             fb2_word_list = Fb2File.get_words(f)
-
             capital_words = Counter.count_cap_words(fb2_word_list)
             words = Counter.count_words(fb2_word_list)
             lower_words = Counter.count_low_words(fb2_word_list)
             letters = Counter.count_letters(fb2_word_list)
-        try:
-            my_db = SqliteCon()
-        except sqlite3.OperationalError as e:
-            logging.error(e)
-            # connect to db and fill in the table "text_info". The table is created with connection to db
+            try:
+                my_db = SqliteCon()
+            except sqlite3.OperationalError as e:
+                logging.error(e)
+
+                # connect to db and fill in the table "text_info". The table is created with connection to db
             try:
                 query = 'INSERT INTO text_info(book_name, number_of_paragraph, number_of_words,' \
                         ' number_of_letters, words_with_capital_letters, words_in_lowercase) ' \
