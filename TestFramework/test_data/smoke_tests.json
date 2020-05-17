@@ -1,0 +1,77 @@
+{
+  "tests": [
+    {
+      "name": "Check table text_info for data existing",
+      "query": "SELECT count(*) FROM text_info",
+      "expected": 1
+    },
+        {
+      "name": "Check table 'Цветы для Элджернона' for data existing",
+      "query": "SELECT count(*) FROM 'Цветы для Элджернона'",
+      "expected": 13283
+    },
+    {
+      "name": "Check number of paragraphs",
+      "query": "SELECT number_of_paragraph FROM text_info",
+      "expected": 2267
+    },
+    {
+      "name": "Check number of words",
+      "query": "SELECT number_of_words FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "expected": 63314
+    },
+    {
+      "name": "Check number of letters",
+      "query": "SELECT number_of_letters FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "expected": 306313
+    },
+    {
+      "name": "Check number of capitalized words",
+      "query": "SELECT words_with_capital_letters FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "expected": 8370
+    },
+     {
+      "name": "Check number of lowercase words",
+      "query": "SELECT words_in_lowercase FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "expected": 54944
+    },
+     {
+      "name": "Check number of words in 'Book' table ",
+      "query": "SELECT SUM(count_words) FROM 'Цветы для Элджернона'",
+      "expected": 63314
+    },
+     {
+      "name": "Check number of words in text_info table is the same as number of words in 'Book' table",
+      "query": "SELECT number_of_words FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "query2": "SELECT SUM(count_words) FROM 'Цветы для Элджернона'",
+      "expected": "The result of the 1st query is equal to the result of the 2nd query"
+    },
+     {
+      "name": "Check number of words in the book is less or equal than number of words",
+      "query": "SELECT number_of_words FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "query2": "SELECT number_of_letters FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "expected": ["The result of the 1st query is equal to the result of the 2nd query", "The result of the 1st query is less than the result of the 2nd query"]
+    },
+     {
+      "name": "Check NULLS in text_info table",
+      "query": "SELECT COUNT(*) FROM text_info WHERE book_name IS NULL OR number_of_paragraph IS NULL OR number_of_words IS NULL OR number_of_letters IS NULL OR words_with_capital_letters IS NULL OR words_in_lowercase IS NULL",
+      "expected": 0
+    },
+     {
+      "name": "Check NULLS in 'Book' table",
+      "query": "SELECT COUNT(*) FROM 'Цветы для Элджернона' WHERE word IS NULL OR count_words IS NULL",
+      "expected": 0
+    },
+     {
+      "name": "Check UNIQUE values in 'Book' table",
+      "query": "SELECT COUNT(*) FROM (SELECT COUNT(word) FROM 'Цветы для Элджернона' EXCEPT SELECT COUNT(DISTINCT word) FROM 'Цветы для Элджернона')",
+      "expected": 0
+    },
+     {
+      "name": "Check whether number of words in text_info table is equal to the SUM of capitalized and lowercase words",
+      "query": "SELECT number_of_words FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "query2": "SELECT words_in_lowercase + words_with_capital_letters FROM text_info WHERE book_name='Цветы для Элджернона'",
+      "expected": "The result of the 1st query is equal to the result of the 2nd query"
+    }
+  ]
+}
