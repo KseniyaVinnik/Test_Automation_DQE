@@ -1,0 +1,9 @@
+{
+  "dev": {
+    "database": "d:/training/Test_Automation_DQE/fb2_analytics.sqlite",
+    "test_data_folder": "d:/training/Test_Automation_DQE/TestFramework/test_data/"
+  },
+
+  "uat": {
+  }
+}
