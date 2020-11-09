@@ -9,7 +9,7 @@ logging.basicConfig(filename='log',
 logging.info("Analysing FB2 files started")
 
 try:
-    directory_name = sys.argv[1]
+    directory_name = "input/"
 except IndexError as e:
     logging.error(e)
     print("In the parameters specify the folder with fb2 files for analysis")
@@ -18,3 +18,4 @@ except IndexError as e:
 Conductor.run(directory_name)
 
 logging.info("Analysing FB2 file finished")
+print("done")
